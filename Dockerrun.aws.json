@@ -4,7 +4,32 @@
 		{
 			"name": "client",
 			"image": "luisosta/multi-client",
-			"hostname": "client"
+			"hostname": "client",
+			"essential": false
+		},
+		{
+			"name": "server",
+			"image": "luisosta/multi-server",
+			"hostname": "api",
+			"essential": false
+		},
+		{
+			"name": "worker",
+			"image": "luisosta/multi-worker",
+			"hostname": "worker",
+			"essential": false
+		},
+		{
+			"name": "nginx",
+			"image": "luisosta/multi-nginx",
+			"essential": true,
+			"portMappings": [
+				{
+					"hostPort": 80,
+					"containerPort": 80
+				}
+			],
+			"links": ["client", "server"]
 		}
 	]
 }
