@@ -3,19 +3,19 @@ services:
   - docker
 
 before_install:
-  - docker build -t losta/react-test -f ./client/Dockerfile.dev .
+  - docker build -t luisosta/react-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run -e CI=true losta/react-test npm run test
+  - docker run -e CI=true luisosta/react-test npm run test
 
 after_success:
-  - docker build -t losta/multi-client ./client
-  - docker build -t losta/multi-nginx ./nginx
-  - docker build -t losta/multi-server ./server
-  - docker build -t losta/multi-worker ./worker
+  - docker build -t luisosta/multi-client ./client
+  - docker build -t luisosta/multi-nginx ./nginx
+  - docker build -t luisosta/multi-server ./server
+  - docker build -t luisosta/multi-worker ./worker
   # take these images and publish them to docker hub
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-  - docker push losta/multi-client
-  - docker push losta/multi-nginx
-  - docker push losta/multi-server
-  - docker push losta/multi-worker
+  - docker push luisosta/multi-client
+  - docker push luisosta/multi-nginx
+  - docker push luisosta/multi-server
+  - docker push luisosta/multi-worker
