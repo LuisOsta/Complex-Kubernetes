@@ -4,3 +4,9 @@
 4. Leveraged NGINX to serve as a request router & production server for SPA & the microservices apis utilized
 5. Built CI/CD Pipeline using Travis CI & AWS
 6. Leveraged AWS Eslatic Beanstalk to deploy and host a multi-container system
+
+Important commands
+
+```
+kubectl create secret generic <secret_name> --from-literal KEY_NAME=value
+```
