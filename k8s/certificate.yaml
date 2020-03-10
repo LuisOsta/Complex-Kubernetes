@@ -1,0 +1,20 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: development-demo-com-tls
+spec:
+  secretName: development-demo-com
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: development-demo.com
+  dnsNames:
+    - development-demo.com
+    - www.development-demo.com
+  acme:
+    config:
+      - http01:
+          ingressClass: nginx
+        domains:
+          - development-demo.com
+          - www.development-demo.com
