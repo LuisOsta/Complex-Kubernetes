@@ -17,4 +17,4 @@ kubectl apply -f k8s
 # Update the images in the deployments with the latest
 kubectl set image deployments/server-deployment server=luisosta/multi-server:$SHA
 kubectl set image deployments/client-deployment client=luisosta/multi-client:$SHA
-kubectl set image deployments/worker-deployment worker=luisosta/worker-server:$SHA
+kubectl set image deployments/worker-deployment worker=luisosta/multi-worker:$SHA
