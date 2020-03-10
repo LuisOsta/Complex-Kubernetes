@@ -3,31 +3,11 @@ services:
   - docker
 
 before_install:
-  - docker build -t luisosta/react-test -f ./client/Dockerfile.dev ./client
+  - openssl aes-256-cbc -K $encrypted_0c35eebf403c_key -iv $encrypted_0c35eebf403c_iv -in service-account.json.enc -out service-account.json -d
+  - curl https://sdk.cloud.google.com | bash > /dev/null;
+  - source $HOME/google-cloud-sdk/path.bash.inc
+  - gcloud components update kubectl
+  - gcloud auth activate-service-account --key-file service-account.json
 
 script:
   - docker run -e CI=true luisosta/react-test npm run test
-
-after_success:
-  - docker build -t luisosta/multi-client ./client
-  - docker build -t luisosta/multi-nginx ./nginx
-  - docker build -t luisosta/multi-server ./server
-  - docker build -t luisosta/multi-worker ./worker
-  # take these images and publish them to docker hub
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-  - docker push luisosta/multi-client
-  - docker push luisosta/multi-nginx
-  - docker push luisosta/multi-server
-  - docker push luisosta/multi-worker
-
-deploy:
-  provider: elasticbeanstalk
-  region: "us-east-2"
-  app: "Multi-Docker"
-  env: "MultiDocker-env"
-  bucket_name: "elasticbeanstalk-us-east-2-167923501836"
-  bucket_path: "docker-multi"
-  on:
-    branch: master
-  access_key_id: $AWS_ACCESS_KEY
-  secret_access_key: $AWS_SECRET_KEY
